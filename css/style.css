@@ -1,0 +1,964 @@
+/* Font stilini Google Font'tan içe aktar */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+:root {/* Temel Renkler ve Tasarım Değişkenleri */
+    --main-color: #ce9a0b;
+    --body-bg: #2b2929;
+    --box-bg: #221f1f;
+    --text-color: #ffffff;
+
+    --nav-height: 60px;
+    --space-top: 30px;
+	--rating-size: 65px;
+	--bar-size: 0.3rem;
+	--background-color: #e7f2fa;
+	--rating-color-default: #2980b9;
+	--rating-color-background: #c7e1f3;
+	--rating-color-good: #27ae60;
+	--rating-color-meh: #f1c40f;
+	--rating-color-bad: #e74c3c;
+}
+
+* {/* Resetleme */
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+/* Temel HTML Stili */
+html {
+    font-size: 16px;
+}
+
+body {/* Temel Sayfa Stili */
+    font-family: "Poppins", sans-serif;
+    background-image: linear-gradient(to right top, #6d6f71, #5c5d5f, #4c4c4d, #3c3c3c, #2c2c2c);
+    color: var(--text-color);
+    padding-top: var(--nav-height);
+}
+
+a {/* Temel Bağlantı Stili */
+    text-decoration: none;
+    color: unset;
+}
+
+img {/* Resimlerin Genişliği */
+    max-width: 100%;
+}
+
+.main-color {/* Ana Rengin Kullanıldığı Yerler */
+    color: var(--main-color);
+}
+
+.container {/* Temel Container Stili */
+    max-width: 1920px;
+    padding: 0 40px;
+    margin: auto;
+}
+
+.overlay {/* Gece Modu Filtresi */
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.nav-wrapper {/* Navigasyon Kutusu ve Stili */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 99;
+    background-color: #000000;
+}
+
+.nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: var(--text-color);
+    height: var(--nav-height);
+}
+
+.nav a {/* Navigasyon Bağlantıları */
+    color: var(--text-color);
+}
+
+.logo {/* Logo Stili */
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+.logo-img{
+	width:32px;
+}
+
+.site-link{/* Sosyal Medya ve Puan Stili */
+	display: flex;
+	gap: 15px;
+}
+
+.consensus {/* Puan Kutusu ve Stili */
+  width: 68px;
+  height: 68px;
+  display: inline-block;
+  transition: transform .2s;
+  transform: scale(1);
+}
+
+.outer_ring {
+  display: inline-block;
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  padding: 4px;
+  background-color: #081c22;
+}
+
+.user_score_chart {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+}
+
+.percent {
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.percent .icon {
+  color: #fff;
+}
+
+.user_score_chart canvas {
+  background-color: transparent;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.ratingi {/*Film Puanı Kutusu ve Stili */
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 100%;
+  overflow: hidden;
+  
+  background: var(--rating-color-default);
+  color: var(--rating-color-default);
+  width: var(--rating-size);
+  height: var(--rating-size);
+
+  font-size: calc(var(--rating-size) / 4);
+  line-height: 1;
+}
+
+.ratingi span {/* Film Puanı Kutusu İçindeki Metin */
+  position: relative;
+  display: flex;
+  font-weight: bold;
+  z-index: 2;
+}
+
+.ratingi span small {
+  font-size: 0.5em;
+  font-weight: 900;
+  align-self: center;
+}
+
+.ratingi::after {/* Film Puanı Kutusunun Arka Planı */
+  content: "";
+  position: absolute;
+  top: var(--bar-size);
+  right: var(--bar-size);
+  bottom: var(--bar-size);
+  left: var(--bar-size);
+  background: var(--background-color);
+  border-radius: inherit;
+  z-index: 1;
+}
+
+.ratingi::before {/* Film Puanı Kutusunun İç Doldurması */
+  content: "";
+  position: absolute;
+  top: var(--bar-size);
+  right: var(--bar-size);
+  bottom: var(--bar-size);
+  left: var(--bar-size);
+  border-radius: inherit;
+  box-shadow: 0 0 0 1rem var(--rating-color-background);
+  z-index: -1;
+}
+
+.ratingi.good {/* İyi Puanlanan Filmlerin Arka Plan Rengi ve Yazı Rengi */
+  background: var(--rating-color-good);
+  color: var(--rating-color-good);
+}
+
+.ratingi.meh {/* Orta Puanlı Filmlerin Arka Plan Rengi ve Yazı Rengi */
+  background: var(--rating-color-meh);
+  color: var(--rating-color-meh);
+}
+
+.ratingi.bad {/* Kötü Puanlanan Filmlerin Arka Plan Rengi ve Yazı Rengi */
+  background: var(--rating-color-bad);
+  color: var(--rating-color-bad);
+}
+
+
+.nav-menu {/* Navigasyon Menüsü ve Stili */
+    list-style-type: none;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.nav-menu li ~ li {/* Navigasyon Menü Bağlantıları Arasındaki Boşluk */
+    margin-left: 30px;
+}
+
+.nav-menu a {/* Navigasyon Menü Bağlantıları */
+    text-transform: uppercase;
+    font-weight: 500;
+}
+
+.nav-menu a:hover {/* Navigasyon Menü Bağlantılarına Hover Stili */
+    color: var(--main-color);
+}
+
+.nav-menu a.btn:hover,
+a.logo:hover,
+a.movie-item:hover {/* Buton ve Hover Efekti */
+    color: unset;
+}
+
+.btn {
+    color: #ffffff;
+    padding: 0.25rem 1.5rem;
+    text-transform: uppercase;
+    font-size: 1.25rem;
+    font-weight: 500;
+    display: inline-flex;
+    position: relative;
+    align-items: center;
+}
+
+.btn-hover::before {/* Buton Hover Efekti */
+    z-index: 1;
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 50%;
+    height: 100%;
+    background-color: var(--main-color);
+    transition: 0.3s ease-in-out;
+}
+
+.btn-hover:hover::before {/* Buton Hover Durumunda Arka Planın Genişlemesi */
+    width: 100%;
+}
+
+.btn i,/* Buton İçindeki İkon */
+.btn span {
+    z-index: 1;
+}
+
+.btn i {/* Buton İkonunun Sağ Kenara Oturtulması */
+    margin-right: 1rem;
+}
+
+.hamburger-menu {
+    --size: 30px;
+    height: var(--size);
+    width: var(--size);
+    cursor: pointer;
+    z-index: 101;
+    position: relative;
+    display: none;
+    align-items: center;
+}
+
+.hamburger {/* Hamburger Menü ve Stili */
+    position: relative;
+}
+
+.hamburger,/* Hamburger Menü ve İki Yanındaki Çizgilerin Stili */
+.hamburger::before,
+.hamburger::after {
+    width: var(--size);
+    height: 3px;
+    border-radius: 0.5rem;
+    background-color: var(--text-color);
+    transition: 0.4s;
+}
+
+.hamburger::before,
+.hamburger::after {/* Hamburger Menü Öncesi ve Sonrası Çizgiler */
+    content: "";
+    position: absolute;
+    left: 0;
+}
+
+.hamburger::before {/* Hamburger Menü Öncesi Çizginin Konumu */
+    top: -10px;
+}
+
+.hamburger::after {/* Hamburger Menü Sonrası Çizginin Konumu */
+    bottom: -10px;
+}
+
+.hamburger-menu.active .hamburger {/* Hamburger Menü Aktif Durumunda Çizgilerin Animasyonu */
+    background-color: transparent;
+}
+
+.hamburger-menu.active .hamburger::before {/* Hamburger Menü Aktif Durumunda Üst Çizginin Dönmesi */
+    transform-origin: top left;
+    transform: rotate(45deg);
+    left: 6px;
+}
+
+.hamburger-menu.active .hamburger::after {/* Hamburger Menü Aktif Durumunda Alt Çizginin Dönmesi */
+    transform-origin: bottom left;
+    transform: rotate(-45deg);
+    left: 6px;
+}
+
+.hero-slide-item {/* Kahraman Slider Elemanı */
+    padding-top: 40%;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-slide-item img {/* Kahraman Slider Elemanının Arkaplan Resmi */
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.hero-slide-item-content {/* Kahraman Slider Elemanı İçeriği */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    color: var(--text-color);
+    display: flex;
+}
+
+.item-content-wraper {/* Kahraman Slider Elemanı İçerik Sarıcısı */
+    padding-left: 5rem;
+    width: 40%;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+}
+
+.item-content-wraper::before {/* Kahraman Slider Elemanı İçerik Sarıcısının Arkaplanı */
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 100%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(to right, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0));
+}
+
+.item-content-title {/* Kahraman Slider Elemanı Başlık */
+    font-size: 3rem;
+    line-height: 3rem;
+    font-weight: 700;
+}
+
+.movie-infos {/* Film Bilgi Kutularının Stili */
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-top: calc(var(--space-top) / 2);
+}
+
+.movie-info {/* Film Bilgi Kutuları */
+    display: flex;
+    align-items: center;
+    font-size: 0.8rem;
+    font-weight: 400;
+}
+
+.movie-info span {/* Film Bilgi Kutularının Boşlukları */
+    margin-left: 5px;
+}
+
+.movie-info i {/* Film Bilgi İkonları */
+    color: var(--main-color);
+}
+
+.movie-info ~ .movie-info {/* Film Bilgi Kutuları Arasındaki Boşluk */
+    margin-left: 5px;
+}
+
+
+.movie-info-detay {/* Film Detay Bilgi Kutularının Stili */
+    display: flex;
+    align-items: center;
+    font-size: 1.1rem;
+    font-weight: 400;
+}
+
+.movie-info-detay span {/* Film Detay Bilgi Kutularının Boşlukları */
+    margin-left: 5px;
+}
+
+.movie-info-detay i {/* Film Detay Bilgi İkonları */
+    color: var(--main-color);
+}
+
+.movie-info-detay ~ .movie-info-detay {/* Film Detay Bilgi Kutuları Arasındaki Boşluk */
+    margin-left: 5px;
+}
+
+.imdb-logo{/* IMDB ve YouTube Logolarının Genişliği */
+	width:60px;
+}
+
+.youtube-logo{
+	width:65px;
+}
+
+/* Stil dosyası, web sayfasının görünümünü düzenler */
+
+.item-content-description {/* Genel stil */
+    font-size: 1.15rem;
+    margin-top: var(--space-top);
+    line-height: 1.5rem;
+}
+
+.item-action {
+    margin-top: var(--space-top);
+}
+
+.carousel-nav-center {
+    position: relative;
+}
+
+.carousel-nav-center .owl-nav button i {
+    font-size: 3rem;
+}
+
+.carousel-nav-center .owl-nav button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.carousel-nav-center .owl-nav .owl-prev {
+    position: absolute;
+    left: 5px;
+}
+
+.carousel-nav-center .owl-nav .owl-next {
+    position: absolute;
+    right: 5px;
+}
+
+.owl-nav button {
+    border: none;
+    outline: none;
+}
+
+.owl-nav button i {
+    background-color: rgba(0, 0, 0, 0.6);
+    border-radius: 50%;
+}
+
+.owl-nav button:hover i {
+    color: var(--main-color);
+}
+
+.top-down {
+    transform: translateY(-50px);
+    visibility: hidden;
+    opacity: 0;
+    transition: 0.5s ease-in-out;
+}
+
+.delay-2 {
+    transition-delay: 0.2s;
+}
+
+.delay-4 {
+    transition-delay: 0.4s;
+}
+
+.delay-6 {
+    transition-delay: 0.6s;
+}
+
+.delay-8 {
+    transition-delay: 0.8s;
+}
+
+.owl-item.active .top-down {
+    transform: translateY(0);
+    visibility: visible;
+    opacity: 1;
+}
+
+.movie-item {
+    display: block;
+    position: relative;
+    overflow: hidden;
+    padding-top: 140%;
+    cursor: pointer;
+}
+
+.movie-item img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    transition: transform 0.3s linear;
+}
+
+.movie-item:hover img {
+    transform: scale(1.2);
+}
+
+.movie-item-content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 5px;
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.movie-item-content::before {
+    content: "";
+    position: absolute;
+    bottom: 100%;
+    left: 0;
+    width: 100%;
+    height: 100px;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0));
+}
+
+.movie-item-title {
+    color: var(--text-color);
+    font-size: 1.5rem;
+    position: relative;
+    font-weight: 500;
+}
+
+.section {/* Bölüm stilleri */
+    padding-top: 80px;
+}
+
+.section-header {
+    margin-bottom: 30px;
+    padding-left: 20px;
+    text-transform: capitalize;
+    font-size: 1.5rem;
+    font-weight: 500;
+    border-left: 4px solid var(--main-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.section-header .tumu{
+   
+    padding-right: 20px;
+    text-transform: capitalize;
+    font-size: 1.5rem;
+    font-weight: 500;
+    border-right: 4px solid var(--main-color);
+
+}
+
+.pricing-header {
+    margin-bottom: 30px;
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 500;
+    text-transform: uppercase;
+}
+
+.pricing-box {
+    padding: 50px;
+    margin: 15px 0;
+    background-color: var(--box-bg);
+    border-top: 5px solid transparent;
+    transition: transform 0.3s ease-in-out;
+}
+
+.pricing-box:hover {
+    transform: translateY(-20px);
+}
+
+.pricing-box.hightlight {
+    border-top: 5px solid var(--main-color);
+}
+
+.pricing-box-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 1.5rem;
+}
+
+.pricing-price {
+    font-weight: 500;
+}
+
+.pricing-price span {
+    font-size: 1rem;
+}
+
+.pricing-box-content {
+    text-align: center;
+    margin-top: 60px;
+    font-size: 1.25rem;
+}
+
+.pricing-box-action {
+    text-align: center;
+    margin-top: 60px;
+}
+
+footer.section {/* Footer stilleri */
+    margin-top: 80px;
+    padding-bottom:70px;
+    position: relative;
+    background-color: var(--box-bg);
+}
+
+footer a:hover {
+    color: var(--main-color);
+}
+
+footer a.logo {
+    margin-top: -2.5rem;
+    display: block;
+}
+
+footer a.logo:hover {
+    color: unset;
+}
+
+.social-list {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.social-item {
+    --size: 30px;
+    height: 32px;
+    width: 32px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background-color: var(--text-color);
+    color: #000;
+}
+
+.social-item:hover {
+    background-color: var(--main-color);
+    color: var(--text-color);
+}
+
+.social-item ~ .social-item {
+    margin-left: 20px;
+}
+
+footer .content {
+    margin-top: 20px;
+}
+
+.footer-menu {
+    list-style-type: none;
+}
+
+.footer-menu a {
+    display: inline-block;
+    transition: transform 0.2s ease-in-out;
+}
+
+.footer-menu a:hover {
+    transform: translateX(5px);
+}
+
+.copyright {
+    padding: 10px;
+    border-top: 1px solid var(--body-bg);
+    background-color: var(--box-bg);
+    text-align: center;
+}
+
+input[type=search] {
+  padding: 6px;
+  font-size: 17px;
+  border: none;
+}
+
+input[type=search]::placeholder {
+  color: gray;
+  font-size: 13px;
+}
+
+.search_button {
+  background: var(--main-color);
+  font-size: 17px;
+  border: none;
+  cursor: pointer;
+  padding: 6px 10px;
+}
+
+.search_button:hover {
+  background: #ccc;
+}
+
+.film-detay{
+	position: relative;
+	height: 85vh;
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-size: cover;
+}
+
+.film-detay::before{
+	content: "";
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	bottom: 0px;
+	left: 0px;
+	background-color: rgba(0, 0, 0, 0.8);
+}
+
+.tasarim{
+	padding: 20px;
+	margin: 20px;
+	position: relative;
+}
+
+.poster{
+	flex: 1;
+	
+}
+.poster img{
+	border-radius: 10px;
+}
+
+.icerik{
+	flex: 4;
+}
+
+#pegi{
+	width:40px;
+	padding:5px;
+	border : 1px solid #FFF;
+	border-radius: 5px;
+	margin-right: 10px;
+}
+#puan, #sure, #turler{
+	margin-right: 10px;
+}
+
+#film-listesi{
+	margin-top:10px;
+}
+
+.ileri-geri{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding:20px;
+	gap:10px;
+}
+
+.ileri-geri a {
+text-decoration: none;
+display: inline-block;
+font-size: 40px;
+width: 60px;
+text-align: center;
+}
+
+.geri:hover {
+   background-color: #ddd;
+   color: black;
+}
+.ileri:hover {
+   background-color: var(--main-color);
+   color: white;
+}
+.geri {
+   border-radius: 50%;
+   background-color: #acacac;
+   color: black;
+   margin-right:10px;
+}
+.ileri {
+   border-radius: 50%;
+   background-color: var(--main-color);
+   color: white;
+}
+
+.kategori-button {
+  align-items: center;
+  background-image: linear-gradient(135deg, #f34079 40%, #fc894d);
+  border: 0;
+  border-radius: 10px;
+  box-sizing: border-box;
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  font-size: 16px;
+  font-weight: 700;
+  height: 54px;
+  justify-content: center;
+  letter-spacing: .4px;
+  line-height: 1;
+  max-width: 100%;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 3px;
+  text-decoration: none;
+  text-transform: uppercase;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.kategori-button:active {
+  outline: 0;
+}
+
+.kategori-button:hover {
+  outline: 0;
+}
+
+.kategori-button span {
+  transition: all 200ms;
+}
+
+.kategori-button span {
+  transform: scale(.9);
+  opacity: .75;
+}
+
+
+@media only screen and (max-width: 1280px) {/* Responsive tasarım */
+    html {
+        font-size: 14px;
+    }
+
+    .hero-slide-item {
+        padding-top: 50%;
+    }
+
+    .item-content-wraper {
+        width: 50%;
+    }
+}
+
+@media only screen and (max-width: 850px) {
+    html {
+        font-size: 12px;
+    }
+
+    .container {
+        padding: 0 15px;
+    }
+
+    .hero-slide-item {
+        height: max-content;
+        padding-top: unset;
+		height: 50vh;
+    }
+
+    .item-content-wraper {
+        width: 100%;
+        height: 100%;
+        padding-bottom: 20px;
+        padding-right: 5rem;
+        background-color: rgba(0, 0, 0, 0.2);
+    }
+
+    .hero-slide-item-content {
+        position: relative;
+    }
+
+    .hero-slide-item img {
+        height: 50vh;
+    }
+
+    .item-content-title {
+        font-size: 2rem;
+    }
+
+    .hamburger-menu {
+        display: grid;
+    }
+
+    .nav-menu {
+        
+        position: absolute;
+        top: 100%;
+        left: -100%;
+        background-color: #000000;
+        flex-direction: column;
+        width: 80%;
+        height: 100vh;
+        padding: 20px;
+        transition: 0.3s ease-in-out;
+    }
+
+    .nav-menu li {
+        margin: 10px 30px;
+    }
+
+    .nav-menu.active {
+        left: 0;
+    }
+	
+	.film-detay{
+		flex-direction: column;
+        width: 100%;
+	}
+	
+	#poster {
+		display: none;
+	}
+	
+	.aciklama{
+		height: 40vh;
+		overflow-y:auto;
+	}
+	
+	input[type="search"] {
+	  padding: 6px;
+	  font-size: 17px;
+	  border: none;
+	  width: 80%;
+	}
+	
+	#pegi{
+		width:33px;
+		
+	}
+}
