@@ -3,6 +3,7 @@
 include 'db.php';// 'db.php' dosyasını dahil et
 include 'header.php'; // 'header.php' dosyasını dahil et
 include 'ft.php';// 'ft.php' dosyasını dahil et
+
  ?>
 <div class="content">
 <div class="row">
@@ -32,11 +33,11 @@ include 'ft.php';// 'ft.php' dosyasını dahil et
         <h5 class="card-title">Toplam Hayır. Kategori</h5>
         <p class="card-text"><?php 
 
-	$query = "SELECT count(*) as total_category from category";
+	$query = "SELECT count(*) as total_Kategori from Kategori";
 	$run = mysqli_query($con,$query);
 	if ($run) {
 		while ($row = mysqli_fetch_assoc($run)) {
-			echo $row['total_category'];
+			echo $row['total_Kategori'];
 		}
 	}
 	 ?></p>
@@ -64,22 +65,7 @@ include 'ft.php';// 'ft.php' dosyasını dahil et
       </div>
     </div>
   </div>
-< <!-- Tür Sayısı -->
-  <div class="col-sm-6">
-    <div class="card" style="border: 1px solid #ccc; background-color: #99ad5a;">
-      <div class="card-body text-center">
-        <h5 class="card-title">Toplam Hayır. Türün</h5>
-        <p class="card-text"><?php 
-
-	$query = "SELECT count(*) as total_tür from tür";
-	$run = mysqli_query($con,$query);
-	if ($run) {
-		while ($row = mysqli_fetch_assoc($run)) {
-			echo $row['total_tür'];
-		}
-	}
-	 ?></p>
-        
+      
       </div>
     </div>
   </div>
@@ -136,70 +122,6 @@ include 'ft.php';// 'ft.php' dosyasını dahil et
 </div>
 
   </div>
-<br>
-<br>  <!-- Tür Butonu -->
-<div class="btngen text-center" id="genbtn1">
-	<button class="btn btn- btn-lg" onclick="myfun1()" style="background-color: #a68e68; width: 190px;">Tür &#8681;&#8681;</button>
-</div> <!-- Tür Gösterme -->
-  <div class="genshow" id="genshow" style="display: none;">
-  	<hr>
-  	<center><h1>Tür</h1></center>
-  	<div class="row">
-  			<?php 
-
-  	$query3 = "SELECT * FROM Tür";
-  	$run3 = mysqli_query($con,$query3);
-  	if ($run3) {
-  		while ($row3=mysqli_fetch_assoc($run3)) {
-  			?>
-  <div class="col-sm-6">
-  
-    <div class="card text-center">
-      <div class="card-body" style="background-color: #a68e68;">
-        <h5 class="card-title">Toplam Sayı <?php echo $row3['Tür_name']; ?></h5>
-         <?php 
-      $id = $row3['id'];
-      $query4 = "SELECT count(*) as total_Kategori from Kategori,Tür where Tür.id=Kategori.Tür_id and Tür.id=$id";
-      $run4 = mysqli_query($con,$query4);
-      if ($run4) {
-       while ($row4 = mysqli_fetch_assoc($run4)) {
-               
-                  ?>
-        <p class="card-text">Kategori sayısı "<?php echo $row4['total_Kategori']; ?>"</p>
-                   
-                  <?php
-                }
-      }
-       ?>
-           <?php 
-      $id = $row3['id'];
-      $query5 = "SELECT count(*) as total_post from movie,genre where genre.id=movie.genre_id and genre.id=$id";
-      $run5 = mysqli_query($con,$query5);
-      if ($run5) {
-       while ($row5 = mysqli_fetch_assoc($run5)) {
-               
-                  ?>
-        <p class="card-text">Hayır. gönderinin "<?php echo $row5['total_post']; ?>"</p>
-                   
-                  <?php
-                }
-      }
-       ?>
-        
-      </div>
-    </div>
-  </div>
-  <?php
-  		}
-  	}
-
-  	 ?>
-	
-</div>
-  </div>
-
-  </div>
-</div>
 <!-- - daha fazlasını gör -->
 
 	<!-- js sakladı ve gösterdi -->

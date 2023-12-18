@@ -1,11 +1,18 @@
 <?php 
 include("api.php");
-$sayfaid=$_GET["sayfa"];
-if(!isset($_GET["sayfa"])) {$sayfaid=1;}
 
-if($sayfaid < 1) {$sayfaid=1;}
-if($sayfaid >= 500) {$sayfaid=500;}
-if(!is_numeric($sayfaid)) {$sayfaid=1;}
+// Check if "sayfa" key exists in the $_GET array, if not, set it to 1
+$sayfaid = isset($_GET["sayfa"]) ? $_GET["sayfa"] : 1;
+
+// Validate the "sayfa" value
+if($sayfaid < 1) {
+    $sayfaid = 1;
+} elseif($sayfaid >= 500) {
+    $sayfaid = 500;
+} elseif(!is_numeric($sayfaid)) {
+    $sayfaid = 1;
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -39,9 +46,9 @@ if(!is_numeric($sayfaid)) {$sayfaid=1;}
 						<button class="search_button" type="submit"><i class="fa fa-search"></i></button>
 					</form>
 					</li>				
-                </ul>
+                </ul><!-- Hamburger menüyü içeren div -->
                 <div class="hamburger-menu" id="hamburger-menu">
-                    <div class="hamburger"></div>
+                    <div class="hamburger"></div>    <!-- Hamburger ikonu -->
                 </div>
             </div>
         </div>

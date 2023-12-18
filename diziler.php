@@ -1,17 +1,20 @@
 <?php 
-include("api.php");
+include("api.php");// api.php dosyasını içeri alır, bu dosyada API anahtarınızı içermesi beklenir.
+
 $sayfaid=$_GET["sayfa"];
 $kategori=$_GET["kategori"];
+// GET isteği ile gelen sayfa ve kategori parametrelerini alır.
+// Eğer bu parametreler belirtilmemişse, varsayılan değerleri kullanır.
 if(!isset($_GET["sayfa"])) {$sayfaid=1;}
 if(!isset($_GET["kategori"])) {$kategori=0;}
 
-if($sayfaid < 1) {$sayfaid=1;}
+if($sayfaid < 1) {$sayfaid=1;}// Sayfa numarası kontrolü
 if($sayfaid >= 500) {$sayfaid=500;}
-if(!is_numeric($sayfaid)) {$sayfaid=1;}
+if(!is_numeric($sayfaid)) {$sayfaid=1;}// Kategori ID'si kontrolü
 if(!is_numeric($kategori)) {$kategori=0;}
 
 if($kategori==0) {$kategoriAdi="Tümü";}
-
+//TMDB API'sinden televizyon kategorilerini çekme
 $url="https://api.themoviedb.org/3/genre/tv/list?api_key=$api&language=tr-TR";
 $json = file_get_contents($url);
 $json = json_decode($json);

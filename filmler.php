@@ -1,28 +1,30 @@
 <?php 
 include 'api.php';
-$sayfaid=$_GET["sayfa"];
-$kategori=$_GET["kategori"];
-if(!isset($_GET["sayfa"])) {$sayfaid=1;}
-if(!isset($_GET["kategori"])) {$kategori=0;}
+$sayfaid = isset($_GET["sayfa"]) ? $_GET["sayfa"] : 1;
 
-if($sayfaid < 1) {$sayfaid=1;}
-if($sayfaid >= 500) {$sayfaid=500;}
-if(!is_numeric($sayfaid)) {$sayfaid=1;}
-if(!is_numeric($kategori)) {$kategori=0;}
+$kategori = isset($_GET["kategori"]) ? $_GET["kategori"] : 0;
 
-if($kategori==0) {$kategoriAdi="Tümü";}
+if($sayfaid < 1) {$sayfaid = 1;}
+if($sayfaid >= 500) {$sayfaid = 500;}
+if(!is_numeric($sayfaid)) {$sayfaid = 1;}
+if(!is_numeric($kategori)) {$kategori = 0;}
 
-$url="https://api.themoviedb.org/3/genre/movie/list?api_key=$api&language=tr-TR";
+if($kategori == 0) {$kategoriAdi = "Tümü";}
+
+$url = "https://api.themoviedb.org/3/genre/movie/list?api_key=$api&language=tr-TR";
 $json = file_get_contents($url);
 $json = json_decode($json);
 $kategoriler = $json->genres;
-$kategoriSayi=count($kategoriler);
-for($i=0;$i<$kategoriSayi; $i++){
-	$katid = $json->genres[$i]->id;
-	$katAdi= $json->genres[$i]->name;
-	if($katid==$kategori) {$kategoriAdi=$katAdi;}
-}
+$kategoriSayi = count($kategoriler);
 
+for ($i = 0; $i < $kategoriSayi; $i++) {
+    $katid = $json->genres[$i]->id;
+    $katAdi = $json->genres[$i]->name;
+
+    if ($katid == $kategori) {
+        $kategoriAdi = $katAdi;
+    }
+}
 ?>
 
 <!DOCTYPE html>

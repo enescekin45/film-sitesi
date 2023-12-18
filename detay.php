@@ -1,120 +1,117 @@
-<?php 
+<?php
 include("api.php");
-$idsi=$_GET["id"];
-$tip=$_GET["tip"];
+$idsi = $_GET["id"]; // Film veya dizinin ID'sini içerir.
+$tip = $_GET["tip"]; // "film" veya "dizi" değerlerini alır.
 
-if($tip=="film"){
+if ($tip == "film") {
+    // API'den film bilgilerini çekme
+    $url2 = "https://api.themoviedb.org/3/movie/$idsi?api_key=$api&language=tr-TR";
+    $json2 = file_get_contents($url2);
+    $json2 = json_decode($json2);
+    // Film bilgilerini çekme ve işleme
+    $puan = $json2->vote_average;
+    $puan = substr($puan, 0, 3);
+    $yuzdePuan = $puan * 10;
+    $sure = $json2->runtime;
+    $baslik = $json2->title;
+    $imdb = $json2->imdb_id;
+    $poster = $json2->poster_path;
+    $arkaplan = $json2->backdrop_path;
+    $aciklama = $json2->overview;
+    // Eğer Türkçe açıklama yoksa İngilizce açıklamayı çekme
+    if ($aciklama == "") {
+        $url3 = "https://api.themoviedb.org/3/movie/$idsi?api_key=$api&language=en-US";
+        $json3 = file_get_contents($url3);
+        $json3 = json_decode($json3);
+        $aciklama = $json3->overview;
+    }
+    // Film çıkış tarihi ve tür bilgilerini çekme
+    $url3 = "https://api.themoviedb.org/3/movie/$idsi/release_dates?api_key=$api";
+    $json3 = file_get_contents($url3);
+    $json3 = json_decode($json3);
+    $contenti = $json3->results;
+    $contentSayi = count($contenti);
+    $yas = "";
+    for ($x = 0; $x < $contentSayi; $x++) {
+        $ulke = $json3->results[$x]->iso_3166_1;
+        if ($ulke == "TR") {
+            $yas = $json3->results[$x]->release_dates[0]->certification;
+        }
+    }
 
-$url2="https://api.themoviedb.org/3/movie/$idsi?api_key=$api&language=tr-TR";
-$json2 = file_get_contents($url2);
-$json2 = json_decode($json2);
-$puan = $json2->vote_average;
-$puan = substr($puan, 0, 3);
-$yuzdePuan = $puan * 10;
-$sure = $json2->runtime;
-$baslik = $json2->title;
-$imdb = $json2->imdb_id;
-$poster = $json2->poster_path;
-$arkaplan = $json2->backdrop_path;
-$aciklama = $json2->overview;
+    $cikis_tarih = $json2->release_date;
+    $cikis_tarihi = substr($cikis_tarih, 0, 4);
+    $turler = $json2->genres;
+    $tursayi = count($turler);
+    $turBirles = "";
+    for ($x = 0; $x < $tursayi; $x++) {
+        $turum = $json2->genres[$x]->name;
+        if (($x + 1) == $tursayi) {
+            $turBirles .= $turum;
+        } else {
+            $turBirles .= $turum . ", ";
+        }
+    }
 
-if($aciklama=="") {
-	$url3="https://api.themoviedb.org/3/movie/$idsi?api_key=$api&language=en-US";
-	$json3 = file_get_contents($url3);
-	$json3 = json_decode($json3);
-	$aciklama = $json3->overview;
+    $url = "https://api.themoviedb.org/3/movie/$idsi/videos?api_key=$api&language=tr-TR";
+    $json = file_get_contents($url);
+    $json = json_decode($json);
+
+    // 'results' dizisi boş değilse elemanlarına erişmeden önce kontrol et
+    $youtube_link = !empty($json->results) ? "https://www.youtube.com/watch?v=" . $json->results[0]->key : "";
+
+    $youtube_linki = $youtube_link; // Geri kalan kodlarda $youtube_linki'yi kullanabilirsin
+
+} elseif ($tip == "dizi") {
+
+    $url2 = "https://api.themoviedb.org/3/tv/$idsi?api_key=$api&language=tr-TR";
+    $json2 = file_get_contents($url2);
+    $json2 = json_decode($json2);
+    $puan = $json2->vote_average;
+    $puan = substr($puan, 0, 3);
+    $yuzdePuan = $puan * 10;
+    $sure = $json2->episode_run_time[0];
+    $baslik = $json2->name;
+    $poster = $json2->poster_path;
+    $arkaplan = $json2->backdrop_path;
+    $aciklama = $json2->overview;
+
+    $websitesi = $json2->homepage;
+
+    if ($aciklama == "") {
+        $url3 = "https://api.themoviedb.org/3/tv/$idsi?api_key=$api&language=en-US";
+        $json3 = file_get_contents($url3);
+        $json3 = json_decode($json3);
+        $aciklama = $json3->overview;
+    }
+
+    $url3 = "https://api.themoviedb.org/3/tv/$idsi/content_ratings?api_key=$api";
+    $json3 = file_get_contents($url3);
+    $json3 = json_decode($json3);
+    $contenti = $json3->results;
+    $contentSayi = count($contenti);
+    $yas = "";
+    for ($x = 0; $x < $contentSayi; $x++) {
+        $ulke = $json3->results[$x]->iso_3166_1;
+        if ($ulke == "TR") {
+            $yas = $json3->results[$x]->rating;
+        }
+    }
+
+    $cikis_tarih = $json2->first_air_date;
+    $cikis_tarihi = substr($cikis_tarih, 0, 4);
+    $turler = $json2->genres;
+    $tursayi = count($turler);
+    $turBirles = "";
+    for ($x = 0; $x < $tursayi; $x++) {
+        $turum = $json2->genres[$x]->name;
+        if (($x + 1) == $tursayi) {
+            $turBirles .= $turum;
+        } else {
+            $turBirles .= $turum . ", ";
+        }
+    }
 }
-
-$url3="https://api.themoviedb.org/3/movie/$idsi/release_dates?api_key=$api";
-$json3 = file_get_contents($url3);
-$json3 = json_decode($json3);
-$contenti = $json3->results;
-$contentSayi=count($contenti);
-$yas="";
-for($x=0;$x<$contentSayi; $x++){
-$ulke = $json3->results[$x]->iso_3166_1;
-if($ulke=="TR") {$yas = $json3->results[$x]->release_dates[0]->certification;}
-}
-
- 
-
-$cikis_tarih=$json2->release_date;
-$cikis_tarihi = substr($cikis_tarih, 0, 4);
-$turler = $json2->genres;
-$tursayi=count($turler);
-$turBirles = "";
-for($x=0;$x<$tursayi; $x++){
-	$turum = $json2->genres[$x]->name;
-	if(($x + 1) == $tursayi) {$turBirles.=$turum;} else {$turBirles.=$turum.", ";}
-	
-}
-
-$url="https://api.themoviedb.org/3/movie/$idsi/videos?api_key=$api&language=tr-TR";
-$json = file_get_contents($url);
-$json = json_decode($json);
-$youtube_link = $json->results[0]->key;
-
-$youtube_linki = "https://www.youtube.com/watch?v=".$youtube_link;
-
-}
-
-if($tip=="dizi"){
-
-$url2="https://api.themoviedb.org/3/tv/$idsi?api_key=$api&language=tr-TR";
-$json2 = file_get_contents($url2);
-$json2 = json_decode($json2);
-$puan = $json2->vote_average;
-$puan = substr($puan, 0, 3);
-$yuzdePuan = $puan * 10;
-$sure = $json2->episode_run_time[0];
-$baslik = $json2->name;
-$poster = $json2->poster_path;
-$arkaplan = $json2->backdrop_path;
-$aciklama = $json2->overview;
-
-$websitesi=$json2->homepage;
-
-if($aciklama=="") {
-	$url3="https://api.themoviedb.org/3/tv/$idsi?api_key=$api&language=en-US";
-	$json3 = file_get_contents($url3);
-	$json3 = json_decode($json3);
-	$aciklama = $json3->overview;
-}
-
-$url3="https://api.themoviedb.org/3/tv/$idsi/content_ratings?api_key=$api";
-$json3 = file_get_contents($url3);
-$json3 = json_decode($json3);
-$contenti = $json3->results;
-$contentSayi=count($contenti);
-$yas="";
-for($x=0;$x<$contentSayi; $x++){
-$ulke = $json3->results[$x]->iso_3166_1;
-if($ulke=="TR") {$yas = $json3->results[$x]->rating;}
-}
-
-$cikis_tarih=$json2->first_air_date;
-$cikis_tarihi = substr($cikis_tarih, 0, 4);
-$turler = $json2->genres;
-$tursayi=count($turler);
-$turBirles = "";
-for($x=0;$x<$tursayi; $x++){
-	$turum = $json2->genres[$x]->name;
-	if(($x + 1) == $tursayi) {$turBirles.=$turum;} else {$turBirles.=$turum.", ";}
-	
-}
-
-$url="https://api.themoviedb.org/3/tv/$idsi/videos?api_key=$api&language=tr-TR";
-$json = file_get_contents($url);
-$json = json_decode($json);
-$youtube_link = $json->results[0]->key;
-
-$youtube_linki = "https://www.youtube.com/watch?v=".$youtube_link;
-
-}
-
-
-
-
 ?>
 
 <!DOCTYPE html>

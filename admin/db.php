@@ -1,5 +1,5 @@
 <?php 
 
-$con = mysqli_connect("localhost","root","","exaltfilm");
+$con=mysqli_connect("localhost","root","","exaltfilm");
 
  ?>
